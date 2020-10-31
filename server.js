@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3000;
 
-const User = require("./userModel.js");
+//const User = require("./userModel.js");
+const Exercise = require("./models/exerciseModel.js");
 
 const app = express();
 
@@ -17,18 +18,19 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/custommethoddb", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
 // Routes
 
 // Route to post our form submission to mongoDB via mongoose
+
+
+
+
 app.post("/submit", (req, res) => {
-  // Create a new user using req.body
+  
 
-  // Update this route to run the `setFullName` and `lastUpdatedDate` methods before creating a new User
-  // You must create these methods in the model.
-
-
+/*
   const user = new User(req.body);
   user.setFullName();
   user.lastUpdatedDate();
@@ -43,7 +45,64 @@ app.post("/submit", (req, res) => {
       // If an error occurs, send the error to the client
       res.json(err);
     });
+*/
+
 });
+
+
+
+
+
+
+
+
+
+app.get("/api/workouts", (req, res) => {
+
+
+
+});
+
+
+app.put("/api/workouts/:id", (req, res) => {
+
+      var id = req.params.id;
+
+
+
+
+});
+
+
+app.post("/api/workouts", (req, res) => {
+      
+
+      const exercise = new Exercise(req.body);
+      Exercise.create(exercise)
+    .then(dbExercise => {
+      // If saved successfully, send the the new User document to the client
+      res.json(dbExercise);
+    })
+    .catch(err => {
+      // If an error occurs, send the error to the client
+      res.json(err);
+    });
+
+
+
+});
+
+app.post("/api/workouts/range", (req, res) => {
+
+
+
+});
+
+
+
+
+
+
 
 // Start the server
 app.listen(PORT, () => {
