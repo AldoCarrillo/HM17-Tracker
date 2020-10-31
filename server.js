@@ -6,8 +6,9 @@ const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3000;
 
-//const User = require("./userModel.js");
-const Exercise = require("./models/exerciseModel.js");
+
+const Workout = require("./models/workoutModel.js");
+const { json } = require("express");
 
 const app = express();
 
@@ -54,9 +55,6 @@ app.post("/submit", (req, res) => {
 
 
 
-
-
-
 app.get("/api/workouts", (req, res) => {
 
 
@@ -66,8 +64,23 @@ app.get("/api/workouts", (req, res) => {
 
 app.put("/api/workouts/:id", (req, res) => {
 
-      var id = req.params.id;
+    const id = req.params.id;
+    const data = req.body;
 
+    
+
+    
+    
+    Workout
+        .updateOne({_id: id},  {$push:{exercises: data},day: new Date().getTime() })
+        .then(res =>{
+            console.log(res);
+        });
+
+
+
+    
+  
 
 
 
@@ -77,22 +90,30 @@ app.put("/api/workouts/:id", (req, res) => {
 app.post("/api/workouts", (req, res) => {
       
 
-      const exercise = new Exercise(req.body);
-      Exercise.create(exercise)
-    .then(dbExercise => {
-      // If saved successfully, send the the new User document to the client
-      res.json(dbExercise);
-    })
-    .catch(err => {
-      // If an error occurs, send the error to the client
-      res.json(err);
-    });
+    const workout = new Workout(req.body);
 
-
+    Workout
+        .create(workout)
+        .then(dbWorkout => {
+            // If saved successfully, send the the new User document to the client
+            res.json(dbWorkout);
+        })
+        .catch(err => {
+            // If an error occurs, send the error to the client
+            res.json(err);
+        });
 
 });
 
-app.post("/api/workouts/range", (req, res) => {
+app.get("/api/workouts/range", (req, res) => {
+
+    Workout
+    .find({})
+    .then(data =>{
+        res.json(data);
+        
+    });
+
 
 
 

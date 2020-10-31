@@ -17,6 +17,32 @@ const newWorkout = document.querySelector(".new-workout")
 let workoutType = null;
 let shouldNavigateAway = false;
 
+
+
+initExercise();
+
+
+if (workoutTypeSelect) {
+  workoutTypeSelect.addEventListener("change", handleWorkoutTypeChange);
+}
+if (completeButton) {
+  completeButton.addEventListener("click", function (event) {
+    shouldNavigateAway = true;
+    handleFormSubmit(event);
+  });
+}
+if (addButton) {
+  addButton.addEventListener("click", handleFormSubmit);
+}
+toast.addEventListener("animationend", handleToastAnimationEnd);
+
+document
+  .querySelectorAll("input")
+  .forEach(element => element.addEventListener("input", validateInputs));
+
+
+
+
 async function initExercise() {
   let workout;
 
@@ -30,7 +56,7 @@ async function initExercise() {
 
 }
 
-initExercise();
+
 
 function handleWorkoutTypeChange(event) {
   workoutType = event.target.value;
@@ -137,20 +163,3 @@ function clearInputs() {
   weightInput.value = "";
 }
 
-if (workoutTypeSelect) {
-  workoutTypeSelect.addEventListener("change", handleWorkoutTypeChange);
-}
-if (completeButton) {
-  completeButton.addEventListener("click", function (event) {
-    shouldNavigateAway = true;
-    handleFormSubmit(event);
-  });
-}
-if (addButton) {
-  addButton.addEventListener("click", handleFormSubmit);
-}
-toast.addEventListener("animationend", handleToastAnimationEnd);
-
-document
-  .querySelectorAll("input")
-  .forEach(element => element.addEventListener("input", validateInputs));
