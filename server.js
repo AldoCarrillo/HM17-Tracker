@@ -25,40 +25,14 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { use
 
 // Route to post our form submission to mongoDB via mongoose
 
-
-
-
-app.post("/submit", (req, res) => {
-  
-
-/*
-  const user = new User(req.body);
-  user.setFullName();
-  user.lastUpdatedDate();
-
-
-  User.create(user)
-    .then(dbUser => {
-      // If saved successfully, send the the new User document to the client
-      res.json(dbUser);
-    })
-    .catch(err => {
-      // If an error occurs, send the error to the client
-      res.json(err);
-    });
-*/
-
-});
-
-
-
-
-
-
 app.get("/api/workouts", (req, res) => {
 
-
-
+    Workout
+    .find({})
+    .then(data =>{
+        res.json(data);
+    });
+        
 });
 
 
@@ -67,31 +41,18 @@ app.put("/api/workouts/:id", (req, res) => {
     const id = req.params.id;
     const data = req.body;
 
-    
-
-    
-    
     Workout
         .updateOne({_id: id},  {$push:{exercises: data},day: new Date().getTime() })
         .then(res =>{
             console.log(res);
         });
 
-
-
-    
-  
-
-
-
 });
 
 
 app.post("/api/workouts", (req, res) => {
       
-
     const workout = new Workout(req.body);
-
     Workout
         .create(workout)
         .then(dbWorkout => {
@@ -114,15 +75,7 @@ app.get("/api/workouts/range", (req, res) => {
         
     });
 
-
-
-
 });
-
-
-
-
-
 
 
 // Start the server
